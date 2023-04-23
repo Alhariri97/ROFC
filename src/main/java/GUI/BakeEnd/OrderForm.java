@@ -1,5 +1,6 @@
 package GUI.BakeEnd;
 
+import GUI.NotificationDialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -226,7 +227,6 @@ public class OrderForm extends JDialog {
     private void submitMethod() throws IOException {
 
         if (AreAllValid()) {
-            System.out.println(cvvField.getText());
             exportToPdf(basket.getAll());
         }
     }
@@ -238,15 +238,11 @@ public class OrderForm extends JDialog {
 
         if (!folder.exists()) {
             boolean result = folder.mkdir();
-            if (result) {
-                System.out.println("Folder created successfully.");
-            } else {
-                System.out.println("Failed to create folder.");
-            }
         }
 
         try {
 
+            String formattedDate2;
             LocalDateTime now = LocalDateTime.now(); //get the time now
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"); //fromat 
             String formattedDate = now.format(formatter);
@@ -321,13 +317,26 @@ public class OrderForm extends JDialog {
                     addLine(contentStream, "Total: " + total + "£", xs, ys + 20, 8);
                 }
                 DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss"); //fromat
-                String formattedDate2 = now.format(formatter2);
+                 formattedDate2 = now.format(formatter2);
 
                 document.save("receipts/ROFC_" + formattedDate2 + ".pdf");
             } // get image. // get image.
             this.dispose();
             System.out.println("Pdf has written correctly");
+            new NotificationDialog("Order Placed, your receipt name is: ROFC_" + formattedDate2 + ".pdf", 7000, GUI.GUI.CORRECT_COLOR);
+            basket.clearAll();
+            GUI.MyFrame.left.removeAll();
+            GUI.MyFrame.centCenter.removeAll();
+            
+            GUI.MyFrame.left.repaint();
+            GUI.MyFrame.centCenter.repaint();
+            
+            GUI.MyFrame.left.revalidate();
+            GUI.MyFrame.centCenter.revalidate();
+            
         } catch (IOException e) {
+                        new NotificationDialog("Opps, something went wrong. Please try again!" , 4000, GUI.GUI.WRONG_COLOR);
+
             System.out.println("Error");
         }
 

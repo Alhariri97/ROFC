@@ -5,9 +5,9 @@
 package GUI.Buttons;
 
 import GUI.BakeEnd.Basket;
+import GUI.NotificationDialog;
 import GUI.BakeEnd.OrderForm;
 import GUI.BakeEnd.ReviewOrder;
-import GUI.MyFrame;
 import GUI.MyPanel;
 import GUI.MySideButton;
 import GUI.PhotoPanels.ChairPanelPhoto;
@@ -34,7 +34,7 @@ import com.mycompany.rofc.Desk;
 import com.mycompany.rofc.Furniture;
 import com.mycompany.rofc.Furniture.Wood;
 import com.mycompany.rofc.Table;
-import javax.swing.JLayeredPane;
+import java.awt.Color;
 
 /**
  *
@@ -177,15 +177,18 @@ public class MyButtonListener implements ActionListener {
                                 System.out.println(chair.getIdNum() + " this is the id");
                                 basket.addItem(chair);
                                 ChairPanelPhoto pan = new ChairPanelPhoto(chair, basket, left);
-
                                 centCenter.add(pan);
                                 left.removeAll();
                                 left.revalidate();
                                 left.repaint();
                                 idChosen++;
+
+                                new NotificationDialog("Chari added successful", 3000, GUI.GUI.CORRECT_COLOR);
+
                             } else {
                                 JOptionPane.showMessageDialog(null, "ID number " + idChosen + " Already exists,Please rewrite a different number or delete the one in basket.", "Id number", JOptionPane.WARNING_MESSAGE);
                                 break;
+
                             }
 
                         } else {
@@ -238,6 +241,8 @@ public class MyButtonListener implements ActionListener {
                                 left.revalidate();
                                 left.repaint();
                                 idChosen++;
+                                new NotificationDialog("Desk added successful", 3000, GUI.GUI.CORRECT_COLOR);
+
                             } else {
                                 JOptionPane.showMessageDialog(null, "ID number " + idChosen + " Already exists,Please rewrite a different number or delete the one in basket.", "Id number", JOptionPane.WARNING_MESSAGE);
                                 break;
@@ -293,6 +298,8 @@ public class MyButtonListener implements ActionListener {
                                 left.revalidate();
                                 left.repaint();
                                 idChosen++;
+                                new NotificationDialog("Table added successful", 2000, GUI.GUI.CORRECT_COLOR);
+
                             } else {
                                 JOptionPane.showMessageDialog(null, "ID number " + idChosen + " Already exists,Please rewrite a different number or delete the one in basket.", "Id number", JOptionPane.WARNING_MESSAGE);
                                 break;
@@ -320,7 +327,6 @@ public class MyButtonListener implements ActionListener {
         if (basket.getSize() >= 1) { // if there is itmes in basket
             //            JOptionPane.showMessageDialog(null, "Item added to basket", "Notification", JOptionPane.INFORMATION_MESSAGE);
 
-            System.out.println("it over one");
             int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete all items in the basket?", "Delete Confirmation", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 System.out.println("clear all method started");
@@ -332,8 +338,12 @@ public class MyButtonListener implements ActionListener {
                 left.revalidate();
                 centCenter.repaint();
                 centCenter.revalidate();
+                new NotificationDialog("Basket cleared", 2000, GUI.GUI.CORRECT_COLOR);
 
             }
+
+        } else {
+            new NotificationDialog("Basket is already empty", 1000, GUI.GUI.INFO_COLOR);
 
         }
     }
@@ -356,10 +366,12 @@ public class MyButtonListener implements ActionListener {
             JLabel totall = new JLabel("Total Price: " + totalPrice + "£");
             p1.add(totall);
             mainPanel.add(p1);
-
             this.left.add(mainPanel);
             left.repaint();
             left.revalidate();
+        } else {
+            new NotificationDialog("Your basket is empty, No total to show!", 1000, GUI.GUI.INFO_COLOR);
+
         }
 
     }
@@ -411,8 +423,11 @@ public class MyButtonListener implements ActionListener {
             // I did both print the summary to the councel and 
             //  add Summary to the GUI coz i'm not sure what the ICA means by: 
             //"summary should be output to the console", is to the console enough or with GUI!
-        }
+        } else {
 
+            new NotificationDialog("Your basket is empty, No summary to display!", 1000, GUI.GUI.INFO_COLOR);
+
+        }
     }
 
     private void placeOrderMethod() throws ParseException {

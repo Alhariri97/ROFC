@@ -5,6 +5,7 @@
 package GUI;
 
 import GUI.BakeEnd.Basket;
+import GUI.BakeEnd.ClickMessage;
 import GUI.Buttons.MyButtonListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,7 +19,6 @@ import javax.swing.ImageIcon;
  * @author hariri
  */
 public class MyFrame extends JFrame {
-
     MySideButton addChairBut;
     MySideButton addTabelBut;
     MySideButton addDiskBut;
@@ -28,14 +28,15 @@ public class MyFrame extends JFrame {
     MySideButton placeOrderBut;
     MySideButton reviewOrderBut;
 
-    static MyPanel centerContent;
+    MyPanel centerContent;
     public static MyPanel centCenter;
-    MyPanel left;
-    Basket basket = new Basket();
+    public static MyPanel left;
+    public static Basket basket = new Basket();
+    static MyFrame frame ;
 
     MyFrame() {
         super();
-
+        frame = this;
         left = new MyPanel();
         left.setBackground(Color.CYAN);
         left.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
@@ -49,8 +50,8 @@ public class MyFrame extends JFrame {
         centCenter.setBackground(Color.PINK);
         centCenter.setLayout(new FlowLayout());
         centerContent.add(centCenter, BorderLayout.CENTER);
-        Notification l = new Notification("jkkkkkkkkkkkkkkkkkkjj", 9000, left );
-        
+        centerContent.addMouseListener(new ClickMessage("you clicked empty space on the display panel!"));
+
 //        MyButtonListener listener
         addChairBut = new MySideButton("Add Chair");
         addDiskBut = new MySideButton("Add Disk");
@@ -96,7 +97,10 @@ public class MyFrame extends JFrame {
         sideBar.add(SummaryBut);
         sideBar.add(placeOrderBut);
         sideBar.add(reviewOrderBut);
+        sideBar.addMouseListener(new ClickMessage("you clicked empty space in side bar!"));
 
+        
+        
         this.add(sideBar, BorderLayout.WEST);
         this.add(centerContent, BorderLayout.CENTER);
         this.setMinimumSize(new Dimension(800, 500));
@@ -105,6 +109,8 @@ public class MyFrame extends JFrame {
         this.setSize(500, 500);
         this.setTitle("ROFC APP");
         this.setVisible(true);
+        this.addMouseListener(new ClickMessage("you clicked empty space!"));
+
         ImageIcon logo = new ImageIcon("image/logo-black.jpeg");
         this.setIconImage(logo.getImage());
 

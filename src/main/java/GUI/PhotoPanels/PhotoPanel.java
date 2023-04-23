@@ -5,6 +5,7 @@
 package GUI.PhotoPanels;
 
 import GUI.BakeEnd.Basket;
+import GUI.BakeEnd.ClickMessage;
 import GUI.MyFrame;
 import GUI.MyPanel;
 import java.awt.BorderLayout;
@@ -44,6 +45,15 @@ public abstract class PhotoPanel extends MyPanel {
     public PhotoPanel(Furniture item, Basket basket, MyPanel left) {
 
         super();
+        if(MyFrame.basket.getSize()==0){
+            
+        this.addMouseListener(new ClickMessage("View mode you can't edit or delete!"));
+            }else{
+        this.addMouseListener(new ClickMessage("click right to delete and middle to change!"));
+        
+        }
+            
+
         this.basket = basket;
         this.left = left;
         this.furnitureItem = item;
@@ -65,7 +75,6 @@ public abstract class PhotoPanel extends MyPanel {
         this.setPreferredSize(new Dimension(width, 306));
 
         itemLabel = new JLabel();
-        MyPanel d = MyFrame.centCenter;
         itemLabel.setIcon(new ImageIcon(new ImageIcon(fileName).getImage().getScaledInstance(width, 306, Image.SCALE_DEFAULT)));
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
         this.setBorder(null);
